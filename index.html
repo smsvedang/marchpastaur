@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>March Past Registration — Sangathan | Amity University</title>
+<style>
+  :root{
+    --primary:#7b1fa2;
+    --primary-dark:#4a0072;
+    --accent:#ffb300;
+    --bg1:#1e0033;
+    --bg2:#3a0066;
+    --card-bg:rgba(255,255,255,0.08);
+    --text:#f5f0ff;
+    --success:#2ecc71;
+    --error:#ff5c5c;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  body{
+    min-height:100vh;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background:linear-gradient(-45deg, var(--bg1), var(--bg2), #5c0099, #2b0052);
+    background-size:400% 400%;
+    animation:gradientShift 12s ease infinite;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:30px 16px;
+    color:var(--text);
+    position:relative;
+    overflow-x:hidden;
+  }
+
+  @keyframes gradientShift{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+  }
+
+  /* floating particles */
+  .particle{
+    position:fixed;
+    bottom:-50px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.15);
+    animation:float linear infinite;
+    pointer-events:none;
+  }
+  @keyframes float{
+    0%{transform:translateY(0) translateX(0) rotate(0deg); opacity:0;}
+    10%{opacity:1;}
+    100%{transform:translateY(-110vh) translateX(30px) rotate(360deg); opacity:0;}
+  }
+
+  .container{
+    width:100%;
+    max-width:520px;
+    position:relative;
+    z-index:2;
+    animation:riseIn 0.8s cubic-bezier(.2,.8,.2,1);
+  }
+
+  @keyframes riseIn{
+    from{opacity:0; transform:translateY(40px) scale(0.96);}
+    to{opacity:1; transform:translateY(0) scale(1);}
+  }
+
+  .card{
+    background:var(--card-bg);
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+    border:1px solid rgba(255,255,255,0.15);
+    border-radius:20px;
+    padding:36px 32px 28px;
+    box-shadow:0 20px 60px rgba(0,0,0,0.45);
+    position:relative;
+    overflow:hidden;
+  }
+
+  .card::before{
+    content:'';
+    position:absolute;
+    top:-60%;
+    left:-60%;
+    width:220%;
+    height:220%;
+    background:conic-gradient(from 0deg, transparent, rgba(255,179,0,0.12), transparent 30%);
+    animation:rotateGlow 8s linear infinite;
+    z-index:0;
+  }
+  @keyframes rotateGlow{
+    to{transform:rotate(360deg);}
+  }
+
+  .card > *{position:relative; z-index:1;}
+
+  .logo-row{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    margin-bottom:6px;
+  }
+
+  .emblem{
+    width:46px;
+    height:46px;
+    border-radius:50%;
+    background:linear-gradient(135deg, var(--accent), #ff7043);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:800;
+    color:#3a0066;
+    font-size:20px;
+    box-shadow:0 0 20px rgba(255,179,0,0.6);
+    animation:pulseGlow 2.4s ease-in-out infinite;
+  }
+  @keyframes pulseGlow{
+    0%,100%{box-shadow:0 0 12px rgba(255,179,0,0.5);}
+    50%{box-shadow:0 0 28px rgba(255,179,0,0.9);}
+  }
+
+  h1{
+    text-align:center;
+    font-size:22px;
+    letter-spacing:0.5px;
+    background:linear-gradient(90deg, #ffe082, #ffb300, #ffe082);
+    background-size:200% auto;
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+    animation:shine 3s linear infinite;
+  }
+  @keyframes shine{
+    to{background-position:200% center;}
+  }
+
+  .subtitle{
+    text-align:center;
+    font-size:14px;
+    color:#d8c6f5;
+    margin-top:4px;
+    margin-bottom:24px;
+    letter-spacing:0.3px;
+  }
+
+  .subtitle strong{color:var(--accent);}
+
+  .field{
+    margin-bottom:18px;
+    opacity:0;
+    animation:fieldIn 0.6s ease forwards;
+  }
+  .field:nth-child(1){animation-delay:0.05s;}
+  .field:nth-child(2){animation-delay:0.12s;}
+  .field:nth-child(3){animation-delay:0.19s;}
+  .field:nth-child(4){animation-delay:0.26s;}
+  .field:nth-child(5){animation-delay:0.33s;}
+
+  @keyframes fieldIn{
+    from{opacity:0; transform:translateX(-14px);}
+    to{opacity:1; transform:translateX(0);}
+  }
+
+  label{
+    display:block;
+    font-size:13px;
+    font-weight:600;
+    margin-bottom:6px;
+    color:#e6d9ff;
+    letter-spacing:0.3px;
+  }
+
+  label .req{color:var(--accent);}
+
+  input, select{
+    width:100%;
+    padding:12px 14px;
+    border-radius:10px;
+    border:1.5px solid rgba(255,255,255,0.2);
+    background:rgba(255,255,255,0.07);
+    color:var(--text);
+    font-size:15px;
+    outline:none;
+    transition:border-color .25s ease, box-shadow .25s ease, background .25s ease;
+  }
+
+  input::placeholder{color:rgba(245,240,255,0.4);}
+
+  input:focus, select:focus{
+    border-color:var(--accent);
+    background:rgba(255,255,255,0.12);
+    box-shadow:0 0 0 4px rgba(255,179,0,0.18);
+  }
+
+  select option{
+    background:#3a0066;
+    color:#fff;
+  }
+
+  .error-msg{
+    font-size:12px;
+    color:var(--error);
+    margin-top:5px;
+    min-height:14px;
+    opacity:0;
+    transform:translateY(-4px);
+    transition:opacity .2s ease, transform .2s ease;
+  }
+  .error-msg.show{opacity:1; transform:translateY(0);}
+
+  input.invalid, select.invalid{
+    border-color:var(--error);
+    box-shadow:0 0 0 4px rgba(255,92,92,0.15);
+    animation:shake 0.4s ease;
+  }
+  @keyframes shake{
+    0%,100%{transform:translateX(0);}
+    20%{transform:translateX(-6px);}
+    40%{transform:translateX(6px);}
+    60%{transform:translateX(-4px);}
+    80%{transform:translateX(4px);}
+  }
+
+  button{
+    width:100%;
+    padding:14px;
+    margin-top:8px;
+    border:none;
+    border-radius:12px;
+    font-size:16px;
+    font-weight:700;
+    letter-spacing:0.5px;
+    color:#3a0066;
+    background:linear-gradient(90deg, var(--accent), #ffca4d);
+    cursor:pointer;
+    position:relative;
+    overflow:hidden;
+    transition:transform .15s ease, box-shadow .25s ease;
+    box-shadow:0 10px 26px rgba(255,179,0,0.35);
+  }
+  button:hover{transform:translateY(-2px); box-shadow:0 14px 32px rgba(255,179,0,0.5);}
+  button:active{transform:translateY(0) scale(0.98);}
+  button:disabled{opacity:0.65; cursor:not-allowed; transform:none;}
+
+  button .spinner{
+    display:none;
+    width:18px;
+    height:18px;
+    border:3px solid rgba(58,0,102,0.3);
+    border-top-color:#3a0066;
+    border-radius:50%;
+    animation:spin .7s linear infinite;
+    margin:0 auto;
+  }
+  button.loading span.label{display:none;}
+  button.loading .spinner{display:inline-block;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+
+  .status-box{
+    margin-top:18px;
+    padding:14px 16px;
+    border-radius:12px;
+    text-align:center;
+    font-size:14px;
+    font-weight:600;
+    display:none;
+  }
+  .status-box.success{
+    display:block;
+    background:rgba(46,204,113,0.15);
+    border:1px solid rgba(46,204,113,0.5);
+    color:#7CFCA0;
+    animation:popIn .4s ease;
+  }
+  .status-box.fail{
+    display:block;
+    background:rgba(255,92,92,0.15);
+    border:1px solid rgba(255,92,92,0.5);
+    color:#ff9b9b;
+    animation:popIn .4s ease;
+  }
+  @keyframes popIn{
+    from{opacity:0; transform:scale(0.9);}
+    to{opacity:1; transform:scale(1);}
+  }
+
+  .contact{
+    margin-top:24px;
+    text-align:center;
+    font-size:13px;
+    color:#cdb8ee;
+    line-height:1.6;
+    border-top:1px dashed rgba(255,255,255,0.2);
+    padding-top:16px;
+  }
+  .contact a{
+    color:var(--accent);
+    text-decoration:none;
+    font-weight:700;
+  }
+  .contact a:hover{text-decoration:underline;}
+
+  @media (max-width:480px){
+    .card{padding:28px 20px 22px;}
+    h1{font-size:19px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="card">
+    <div class="logo-row">
+      <div class="emblem">AU</div>
+    </div>
+    <h1>AMITY UNIVERSITY</h1>
+    <p class="subtitle">March Past Registration — <strong>Sangathan</strong></p>
+
+    <form id="marchPastForm" novalidate>
+      <div class="field">
+        <label for="name">Full Name <span class="req">*</span></label>
+        <input type="text" id="name" name="name" placeholder="Enter your full name" autocomplete="name">
+        <div class="error-msg" id="err-name"></div>
+      </div>
+
+      <div class="field">
+        <label for="mobile">Mobile Number <span class="req">*</span></label>
+        <input type="tel" id="mobile" name="mobile" placeholder="10-digit mobile number" maxlength="10" autocomplete="tel">
+        <div class="error-msg" id="err-mobile"></div>
+      </div>
+
+      <div class="field">
+        <label for="enrollment">Enrollment No. <span class="req">*</span></label>
+        <input type="text" id="enrollment" name="enrollment" placeholder="Enter enrollment number">
+        <div class="error-msg" id="err-enrollment"></div>
+      </div>
+
+      <div class="field">
+        <label for="course">Course <span class="req">*</span></label>
+        <select id="course" name="course">
+          <option value="" disabled selected>Select your course</option>
+          <option>B.Tech</option>
+          <option>BCA</option>
+          <option>BBA</option>
+          <option>B.Com</option>
+          <option>B.Sc</option>
+          <option>BA</option>
+          <option>MBA</option>
+          <option>MCA</option>
+          <option>M.Tech</option>
+          <option>Other</option>
+        </select>
+        <div class="error-msg" id="err-course"></div>
+      </div>
+
+      <div class="field">
+        <label for="year">Year <span class="req">*</span></label>
+        <select id="year" name="year">
+          <option value="" disabled selected>Select your year</option>
+          <option>1st Year</option>
+          <option>2nd Year</option>
+          <option>3rd Year</option>
+          <option>4th Year</option>
+          <option>5th Year</option>
+        </select>
+        <div class="error-msg" id="err-year"></div>
+      </div>
+
+      <button type="submit" id="submitBtn">
+        <span class="label">Register Now</span>
+        <span class="spinner"></span>
+      </button>
+
+      <div class="status-box" id="statusBox"></div>
+    </form>
+
+    <div class="contact">
+      For any issues, contact <strong>Shivam Bindal</strong><br>
+      📞 <a href="tel:7073415826">7073415826</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ---- Floating background particles ----
+  const body = document.body;
+  for(let i=0;i<24;i++){
+    const p = document.createElement('div');
+    p.className='particle';
+    const size = Math.random()*8+4;
+    p.style.width = size+'px';
+    p.style.height = size+'px';
+    p.style.left = Math.random()*100+'vw';
+    p.style.animationDuration = (Math.random()*10+8)+'s';
+    p.style.animationDelay = (Math.random()*10)+'s';
+    body.appendChild(p);
+  }
+
+  // ---- IMPORTANT ----
+  // Paste the Web App URL you get after deploying the code.gs script (Deploy > New deployment > Web app)
+  const SCRIPT_URL = "PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+
+  const form = document.getElementById('marchPastForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const statusBox = document.getElementById('statusBox');
+
+  function setError(id, msg){
+    const input = document.getElementById(id);
+    const err = document.getElementById('err-'+id);
+    if(msg){
+      input.classList.add('invalid');
+      err.textContent = msg;
+      err.classList.add('show');
+    } else {
+      input.classList.remove('invalid');
+      err.textContent = '';
+      err.classList.remove('show');
+    }
+  }
+
+  function validate(){
+    let valid = true;
+
+    const name = document.getElementById('name').value.trim();
+    if(!name){ setError('name','Name is required'); valid=false; }
+    else { setError('name',''); }
+
+    const mobile = document.getElementById('mobile').value.trim();
+    if(!/^[6-9]\d{9}$/.test(mobile)){ setError('mobile','Enter a valid 10-digit mobile number'); valid=false; }
+    else { setError('mobile',''); }
+
+    const enrollment = document.getElementById('enrollment').value.trim();
+    if(!enrollment){ setError('enrollment','Enrollment number is required'); valid=false; }
+    else { setError('enrollment',''); }
+
+    const course = document.getElementById('course').value;
+    if(!course){ setError('course','Please select a course'); valid=false; }
+    else { setError('course',''); }
+
+    const year = document.getElementById('year').value;
+    if(!year){ setError('year','Please select a year'); valid=false; }
+    else { setError('year',''); }
+
+    return valid;
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    statusBox.className = 'status-box';
+    statusBox.textContent = '';
+
+    if(!validate()) return;
+
+    const data = {
+      name: document.getElementById('name').value.trim(),
+      mobile: document.getElementById('mobile').value.trim(),
+      enrollment: document.getElementById('enrollment').value.trim(),
+      course: document.getElementById('course').value,
+      year: document.getElementById('year').value
+    };
+
+    submitBtn.classList.add('loading');
+    submitBtn.disabled = true;
+
+    fetch(SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+    })
+    .then(res => res.json())
+    .then(res => {
+      submitBtn.classList.remove('loading');
+      submitBtn.disabled = false;
+      if(res.result === 'success'){
+        statusBox.className = 'status-box success';
+        statusBox.textContent = '✅ Registration successful! See you at the March Past.';
+        form.reset();
+      } else {
+        statusBox.className = 'status-box fail';
+        statusBox.textContent = '❌ Something went wrong. Please try again or contact Shivam Bindal.';
+      }
+    })
+    .catch(() => {
+      submitBtn.classList.remove('loading');
+      submitBtn.disabled = false;
+      statusBox.className = 'status-box fail';
+      statusBox.textContent = '❌ Network error. Please check your connection and try again.';
+    });
+  });
+
+  // live-clear errors as user types
+  ['name','mobile','enrollment'].forEach(id=>{
+    document.getElementById(id).addEventListener('input', ()=> setError(id,''));
+  });
+  ['course','year'].forEach(id=>{
+    document.getElementById(id).addEventListener('change', ()=> setError(id,''));
+  });
+</script>
+
+</body>
+</html>
