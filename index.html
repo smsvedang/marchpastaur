@@ -309,6 +309,153 @@
     .card{padding:28px 20px 22px;}
     h1{font-size:19px;}
   }
+
+  /* ===== Popup Modal ===== */
+  .popup-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(10,0,25,0.65);
+    backdrop-filter:blur(4px);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:100;
+    opacity:0;
+    transition:opacity .25s ease;
+  }
+  .popup-overlay.show{
+    display:flex;
+    opacity:1;
+  }
+
+  .popup-box{
+    background:linear-gradient(160deg, #3a0066, #1e0033);
+    border:1px solid rgba(255,255,255,0.18);
+    border-radius:22px;
+    padding:36px 30px 30px;
+    max-width:340px;
+    width:90%;
+    text-align:center;
+    box-shadow:0 25px 70px rgba(0,0,0,0.55);
+    transform:scale(0.7) translateY(30px);
+    opacity:0;
+    animation:none;
+    position:relative;
+    z-index:2;
+  }
+  .popup-overlay.show .popup-box{
+    animation:popupBounce .55s cubic-bezier(.34,1.56,.64,1) forwards;
+  }
+  @keyframes popupBounce{
+    0%{transform:scale(0.6) translateY(40px); opacity:0;}
+    60%{transform:scale(1.05) translateY(-6px); opacity:1;}
+    100%{transform:scale(1) translateY(0); opacity:1;}
+  }
+
+  .popup-box h2{
+    margin-top:18px;
+    font-size:22px;
+    background:linear-gradient(90deg, #ffe082, #ffb300);
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+  }
+  .popup-box p{
+    margin-top:8px;
+    font-size:14px;
+    color:#d8c6f5;
+    line-height:1.5;
+  }
+  .popup-box button{
+    margin-top:22px;
+    width:auto;
+    padding:11px 34px;
+    box-shadow:0 8px 22px rgba(255,179,0,0.35);
+  }
+
+  /* Success check circle */
+  .check-circle{
+    width:84px;
+    height:84px;
+    margin:0 auto;
+  }
+  .check-svg{width:100%; height:100%;}
+  .check-circle-bg{
+    stroke:var(--success);
+    stroke-width:3;
+    stroke-dasharray:151;
+    stroke-dashoffset:151;
+    animation:circleDraw .5s ease forwards;
+    transform-origin:center;
+  }
+  .check-mark{
+    stroke:var(--success);
+    stroke-width:4;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    stroke-dasharray:36;
+    stroke-dashoffset:36;
+    animation:checkDraw .35s ease forwards .5s;
+  }
+  @keyframes circleDraw{
+    to{stroke-dashoffset:0;}
+  }
+  @keyframes checkDraw{
+    to{stroke-dashoffset:0;}
+  }
+
+  /* Error x circle */
+  .x-circle{
+    width:84px;
+    height:84px;
+    margin:0 auto;
+  }
+  .x-svg{width:100%; height:100%;}
+  .x-circle-bg{
+    stroke:var(--error);
+    stroke-width:3;
+    stroke-dasharray:151;
+    stroke-dashoffset:151;
+    animation:circleDraw .5s ease forwards;
+  }
+  .x-mark{
+    stroke:var(--error);
+    stroke-width:4;
+    stroke-linecap:round;
+    stroke-dasharray:52;
+    stroke-dashoffset:52;
+    animation:checkDraw .4s ease forwards .5s;
+  }
+
+  /* Confetti burst */
+  .confetti-layer{
+    position:absolute;
+    inset:0;
+    overflow:hidden;
+    pointer-events:none;
+    z-index:1;
+  }
+  .confetti-piece{
+    position:absolute;
+    top:50%;
+    left:50%;
+    width:8px;
+    height:14px;
+    opacity:0;
+    animation:confettiBurst 1.1s ease-out forwards;
+  }
+  @keyframes confettiBurst{
+    0%{
+      transform:translate(-50%,-50%) rotate(0deg) translateY(0);
+      opacity:1;
+    }
+    100%{
+      transform:
+        translate(calc(-50% + var(--dx)), calc(-50% + var(--dy)))
+        rotate(var(--rot));
+      opacity:0;
+    }
+  }
 </style>
 </head>
 <body>
@@ -342,19 +489,7 @@
 
       <div class="field">
         <label for="course">Course <span class="req">*</span></label>
-        <select id="course" name="course">
-          <option value="" disabled selected>Select your course</option>
-          <option>B.Tech</option>
-          <option>BCA</option>
-          <option>BBA</option>
-          <option>B.Com</option>
-          <option>B.Sc</option>
-          <option>BA</option>
-          <option>MBA</option>
-          <option>MCA</option>
-          <option>M.Tech</option>
-          <option>Other</option>
-        </select>
+        <input type="text" id="course" name="course" placeholder="e.g. B.Tech CSE">
         <div class="error-msg" id="err-course"></div>
       </div>
 
@@ -383,6 +518,37 @@
       For any issues, contact <strong>Shivam Bindal</strong><br>
       📞 <a href="tel:7073415826">7073415826</a>
     </div>
+  </div>
+</div>
+
+<!-- Success Popup -->
+<div class="popup-overlay" id="popupOverlay">
+  <div class="confetti-layer" id="confettiLayer"></div>
+  <div class="popup-box">
+    <div class="check-circle">
+      <svg viewBox="0 0 52 52" class="check-svg">
+        <circle class="check-circle-bg" cx="26" cy="26" r="24" fill="none"/>
+        <path class="check-mark" fill="none" d="M14 27l7 7 17-17"/>
+      </svg>
+    </div>
+    <h2>Registered!</h2>
+    <p>You're all set for the March Past, Sangathan awaits you 🎺</p>
+    <button type="button" id="popupCloseBtn">Done</button>
+  </div>
+</div>
+
+<!-- Error Popup -->
+<div class="popup-overlay" id="errorOverlay">
+  <div class="popup-box">
+    <div class="x-circle">
+      <svg viewBox="0 0 52 52" class="x-svg">
+        <circle class="x-circle-bg" cx="26" cy="26" r="24" fill="none"/>
+        <path class="x-mark" fill="none" d="M17 17l18 18M35 17l-18 18"/>
+      </svg>
+    </div>
+    <h2>Oops!</h2>
+    <p id="errorPopupMsg">Something went wrong. Please try again.</p>
+    <button type="button" id="errorCloseBtn">Close</button>
   </div>
 </div>
 
@@ -438,8 +604,8 @@
     if(!enrollment){ setError('enrollment','Enrollment number is required'); valid=false; }
     else { setError('enrollment',''); }
 
-    const course = document.getElementById('course').value;
-    if(!course){ setError('course','Please select a course'); valid=false; }
+    const course = document.getElementById('course').value.trim();
+    if(!course){ setError('course','Course is required'); valid=false; }
     else { setError('course',''); }
 
     const year = document.getElementById('year').value;
@@ -494,10 +660,10 @@
   });
 
   // live-clear errors as user types
-  ['name','mobile','enrollment'].forEach(id=>{
+  ['name','mobile','enrollment','course'].forEach(id=>{
     document.getElementById(id).addEventListener('input', ()=> setError(id,''));
   });
-  ['course','year'].forEach(id=>{
+  ['year'].forEach(id=>{
     document.getElementById(id).addEventListener('change', ()=> setError(id,''));
   });
 </script>
